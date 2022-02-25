@@ -7,7 +7,8 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const { GridFsStorage } = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
-
+require("dotenv").config();
+const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
@@ -68,6 +69,6 @@ app.get("/getFiles", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log(`listening on http://localhost:3000`);
 });
