@@ -50,6 +50,10 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage: storage });
 
+app.get("/", (req, res) => {
+  res.json({ message: "Hello world" });
+});
+
 app.post("/upload", upload.single("audioFile"), (req, res) => {
   res.json({ file: req.file });
 });
