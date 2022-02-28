@@ -14,6 +14,7 @@ app.use(express.json());
 
 //MongoURI
 const mongoURI =
+  process.env.MONGODB_URI ||
   "mongodb+srv://admin:admin@cluster0.huiu0.mongodb.net/AudioDatabase?retryWrites=true&w=majority";
 
 //create mongo connection
@@ -30,6 +31,10 @@ conn.once("open", () => {
   gfs.collection("uploads");
 });
 
+const rejecterror = (req, res) => {
+  console.log("Error while uploading File");
+};
+
 const storage = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
@@ -45,6 +50,7 @@ const storage = new GridFsStorage({
         };
         resolve(fileInfo);
       });
+      // reject(rejecterror());
     });
   },
 });
@@ -58,6 +64,15 @@ app.get("/", (req, res) => {
 app.post("/upload", upload.single("audioFile"), (req, res) => {
   res.json({ file: req.file });
 });
+
+// app.post("/uploadString", (req, res) => {
+//   const fileString = req.body.audioFile;
+//   console.log(req.body.audioFile);
+//   const buff = Buffer.from(fileString, "utf-8");
+//   console.log(buff);
+
+//   console.log(buff.toString());
+// });
 
 app.get("/getFiles", (req, res) => {
   gfs.files.find().toArray((error, files) => {
