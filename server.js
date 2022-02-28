@@ -39,19 +39,19 @@ const storage = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        const fileName = file.originalname;
-        const fileInfo = {
-          fileName: fileName,
-          bucketName: "uploads",
-        };
-        resolve(fileInfo);
-      });
-      // reject(rejecterror());
+      // crypto.randomBytes(16, (err, buf) => {
+      //   if (err) {
+      //     return reject(err);
+      //   }
+      const fileName = file.originalname;
+      const fileInfo = {
+        fileName: fileName,
+        bucketName: "uploads",
+      };
+      resolve(fileInfo);
     });
+    // reject(rejecterror());
+    //   });
   },
 });
 
